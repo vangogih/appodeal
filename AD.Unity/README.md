@@ -23,7 +23,7 @@ Instead of producing a small isolated prototype, I would like to respectfully of
 
 ## 📌 Recommended Projects To Review
 
-### 🧱 1. Unity Empty Project Template
+### 1. Unity Empty Project Template
 
 🔗 [github.com/vangogih/unity-empty-project-template](https://github.com/vangogih/unity-empty-project-template) · ⭐ 174
 
@@ -36,7 +36,7 @@ Why it is relevant:
 - Has public validation from the Unity community, with **170+ GitHub stars**.
 - Reflects my preference for practical architecture that helps people work faster.
 
-### 🎮 2. UEPT.Example
+### 2. UEPT.Example
 
 🔗 [github.com/vangogih/UEPT.Example](https://github.com/vangogih/UEPT.Example) · ⭐ 26
 
@@ -49,7 +49,7 @@ Why it is relevant:
 - Provides a closer equivalent to a traditional test assignment.
 - Helps validate Unity-specific skills beyond architectural documentation.
 
-### 🔄 3. FastMigrations.Json.Net
+### 3. FastMigrations.Json.Net
 
 🔗 [github.com/vangogih/FastMigrations.Json.Net](https://github.com/vangogih/FastMigrations.Json.Net) · ⭐ 80
 
@@ -62,7 +62,7 @@ Why it is relevant:
 - Focuses on a problem that is easy to overlook until it breaks real users' data.
 - Shows that I can package a reusable technical solution, not only write project-specific code.
 
-### 📊 4. C4G
+### 4. C4G
 
 🔗 [github.com/vangogih/C4G](https://github.com/vangogih/C4G) · ⭐ 7
 
@@ -77,7 +77,7 @@ Why it is relevant:
 
 ## 📝 Unity Architecture Blog
 
-📝 [Unity Architect](https://t.me/+cs3dv9tqysQxYzBi)
+🔗 [Unity Architect](https://t.me/+cs3dv9tqysQxYzBi)
 
 I also write about Unity project architecture, development practices, and engineering decisions in my Telegram blog. It has around **7,000 subscribers** and reflects how I communicate technical ideas, explain trade-offs, and think about Unity development beyond individual repositories.
 
