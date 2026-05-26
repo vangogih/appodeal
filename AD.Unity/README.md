@@ -1,4 +1,4 @@
-# Dear Reviewer 👋
+# 👋 Dear Reviewer
 
 Thank you for taking the time to review my application.
 
@@ -8,13 +8,24 @@ At the same time, I believe the goal behind this assignment is more important th
 
 Instead of producing a small isolated prototype, I would like to respectfully offer a more representative alternative: a short review of my public projects. These repositories show the same skills this assignment is meant to validate, but in a broader and more realistic context.
 
-I am a Unity developer with **7+ years of experience**, focused on feature development, complex debugging, optimization, architecture, and native platform integrations for **iOS** and **Android**.
+<table>
+  <tr>
+    <td width="112" valign="top">
+      <img src="./ava.png" width="96" alt="Aleksei Kozorezov avatar" />
+    </td>
+    <td valign="middle">
+      <blockquote>
+        I am a Unity developer with <strong>7+ years of experience</strong>, focused on feature development, complex debugging, optimization, architecture, and native platform integrations for <strong>iOS</strong> and <strong>Android</strong>.
+      </blockquote>
+    </td>
+  </tr>
+</table>
 
-## Recommended Projects To Review
+## 📌 Recommended Projects To Review
 
-### 1. Unity Empty Project Template
+### 🧱 1. Unity Empty Project Template
 
-🔗 [github.com/vangogih/unity-empty-project-template](https://github.com/vangogih/unity-empty-project-template)
+🔗 [github.com/vangogih/unity-empty-project-template](https://github.com/vangogih/unity-empty-project-template) · ⭐ 174
 
 This is a Unity project template focused on reducing cognitive complexity in project structure. It proposes a clear folder organization for Unity projects, separating project-owned assets, imported assets, development code, configurations, and supporting infrastructure.
 
@@ -25,9 +36,9 @@ Why it is relevant:
 - Has public validation from the Unity community, with **170+ GitHub stars**.
 - Reflects my preference for practical architecture that helps people work faster.
 
-### 2. UEPT.Example
+### 🎮 2. UEPT.Example
 
-🔗 [github.com/vangogih/UEPT.Example](https://github.com/vangogih/UEPT.Example)
+🔗 [github.com/vangogih/UEPT.Example](https://github.com/vangogih/UEPT.Example) · ⭐ 26
 
 This is an example project based on the Unity Empty Project Template. It was originally created as a test assignment for DataSakura and can be used to review how I write Unity code in a small but complete gameplay prototype.
 
@@ -38,9 +49,9 @@ Why it is relevant:
 - Provides a closer equivalent to a traditional test assignment.
 - Helps validate Unity-specific skills beyond architectural documentation.
 
-### 3. FastMigrations.Json.Net
+### 🔄 3. FastMigrations.Json.Net
 
-🔗 [github.com/vangogih/FastMigrations.Json.Net](https://github.com/vangogih/FastMigrations.Json.Net)
+🔗 [github.com/vangogih/FastMigrations.Json.Net](https://github.com/vangogih/FastMigrations.Json.Net) · ⭐ 80
 
 This is a small Unity-compatible plugin for migrating JSON files with Newtonsoft.Json. The plugin addresses a common production problem: player data or local configuration files often change shape between app versions, and those changes need safe migration on user devices.
 
@@ -51,9 +62,9 @@ Why it is relevant:
 - Focuses on a problem that is easy to overlook until it breaks real users' data.
 - Shows that I can package a reusable technical solution, not only write project-specific code.
 
-### 4. C4G
+### 📊 4. C4G
 
-🔗 [github.com/vangogih/C4G](https://github.com/vangogih/C4G)
+🔗 [github.com/vangogih/C4G](https://github.com/vangogih/C4G) · ⭐ 7
 
 C4G is a project for parsing Google Sheets data and transforming it into structured files that can be consumed by a game client. The project is being developed as part of my Unity architecture course and technical content work.
 
@@ -64,13 +75,13 @@ Why it is relevant:
 - Demonstrates CI/CD setup and repository automation.
 - Reflects team collaboration: the project is developed with contributors, while the architecture, structure, and pipeline direction were initiated and organized by me.
 
-## Unity Architecture Blog
+## 📝 Unity Architecture Blog
 
 📝 [Unity Architect](https://t.me/+cs3dv9tqysQxYzBi)
 
 I also write about Unity project architecture, development practices, and engineering decisions in my Telegram blog. It has around **7,000 subscribers** and reflects how I communicate technical ideas, explain trade-offs, and think about Unity development beyond individual repositories.
 
-## How These Projects Map To The Assignment
+## 🧭 How These Projects Map To The Assignment
 
 The original assignment asks to evaluate whether I can:
 
@@ -83,11 +94,16 @@ The original assignment asks to evaluate whether I can:
 
 The projects above cover these points across real repositories instead of a short standalone prototype. They show project structure, Unity code, reusable tooling, architecture decisions, production concerns, and public communication.
 
-## AI Assistance
+## 🤖 AI Assistance
 
 This README was prepared with AI assistance from my rough spoken draft. The final positioning, project selection, and technical claims were reviewed manually by me.
 
-## Closing Note
+I also use AI as a practical engineering assistant in real projects. For example, in C4G, the CI pipeline and ADR documentation were created with AI assistance and then reviewed, adjusted, and maintained by me:
+
+- [C4G CI workflows](https://github.com/vangogih/C4G/tree/master/.github/workflows)
+- [C4G Architecture Decision Records](https://github.com/vangogih/C4G/tree/master/ADR)
+
+## 🙏 Closing Note
 
 I understand that this is a less conventional response to a test assignment. My intention is not to ignore the process, but to make the review more meaningful and respectful of everyone's time.
 
