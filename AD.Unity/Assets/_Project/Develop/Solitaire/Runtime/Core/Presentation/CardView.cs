@@ -19,11 +19,8 @@ namespace Appodeal.Solitaire.Runtime.Core.Presentation
         [SerializeField] private SpriteRenderer _renderer;
         [SerializeField] private BoxCollider2D _collider;
 
-        [Header("UniText label (used when no per-card sprite is supplied)")]
+        [Header("UniText labels (used when no per-card sprite is supplied)")]
         [SerializeField] private UniTextWorld _centerLabel;
-
-        // Legacy corner index: kept in the prefab but hidden at runtime, since showing it next to
-        // the centered label duplicates the rank/suit on fully-visible cards. Deactivated on init.
         [SerializeField] private UniTextWorld _cornerLabel;
 
         [Header("Default backgrounds (white front / decorated back)")]
@@ -51,10 +48,6 @@ namespace Appodeal.Solitaire.Runtime.Core.Presentation
             if (_collider == null)
                 _collider = GetComponent<BoxCollider2D>();
 
-            // Hide the duplicate corner index; only the centered label is used.
-            if (_cornerLabel != null)
-                _cornerLabel.gameObject.SetActive(false);
-
             return UniTask.CompletedTask;
         }
 
@@ -76,6 +69,7 @@ namespace Appodeal.Solitaire.Runtime.Core.Presentation
         public void SetLabel(string text, Color color, bool show)
         {
             ApplyLabel(_centerLabel, text, color, show);
+            ApplyLabel(_cornerLabel, text, color, show);
         }
 
         private static void ApplyLabel(UniTextWorld label, string text, Color color, bool show)
@@ -101,6 +95,8 @@ namespace Appodeal.Solitaire.Runtime.Core.Presentation
                 _renderer.sortingOrder = order;
             if (_centerLabel != null)
                 _centerLabel.SortingOrder = order + 1;
+            if (_cornerLabel != null)
+                _cornerLabel.SortingOrder = order + 1;
         }
 
         public void SetLocalPosition(Vector3 localPosition, bool animate)
