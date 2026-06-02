@@ -1,31 +1,41 @@
-﻿using Appodeal.Solitaire.Runtime.Bootstrap.Units;
-using Appodeal.Solitaire.Runtime.Utilities;
+﻿using Appodeal.Solitaire.Runtime.Assets;
+using Appodeal.Solitaire.Runtime.Game;
+using Appodeal.Solitaire.Runtime.Presentation;
 using Appodeal.Solitaire.Runtime.Utilities.Logging;
-using Cysharp.Threading.Tasks;
 using VContainer.Unity;
 
 namespace Appodeal.Solitaire.Runtime.Core
 {
-    public class CoreFlow : IStartable
+    /// <summary>
+    /// Core scene entry point. Loads game assets, initializes presentation (subscriptions + board
+    /// skeleton), then starts a new game. Initialization logic lives here / in InitializeAsync rather
+    /// than in constructors / Awake / Start (see unity-rules.md).
+    /// </summary>
+    public sealed class CoreFlow : IStartable
     {
-        private readonly LoadingService _loadingService;
-        private readonly SceneManager _sceneManager;
+        private readonly IGameAssetsSystem _gameAssets;
+        private readonly IPresentationSystem _presentation;
+        private readonly IGameSystem _game;
 
-        public CoreFlow(LoadingService loadingService, SceneManager sceneManager)
+        public CoreFlow(IGameAssetsSystem gameAssets, IPresentationSystem presentation, IGameSystem game)
         {
-            _loadingService = loadingService;
-            _sceneManager = sceneManager;
+            _gameAssets = gameAssets;
+            _presentation = presentation;
+            _game = game;
         }
 
         public async void Start()
         {
-            var fooLoadingUnit = new FooLoadingUnit(3, false);
-            await _loadingService.BeginLoading(fooLoadingUnit);
-
-            if (!fooLoadingUnit.IsLoaded)
-                Log.Default.ThrowException("The end of example! Thank you for using this template!");
-
-            _sceneManager.LoadScene(RuntimeConstants.Scenes.Bootstrap).Forget();
+            try
+            {
+                await _gameAssets.LoadAsync();
+                await _presentation.InitializeAsync();
+                _game.StartNewGame();
+            }
+            catch (System.Exception e)
+            {
+                Log.Default.E(e);
+            }
         }
     }
 }

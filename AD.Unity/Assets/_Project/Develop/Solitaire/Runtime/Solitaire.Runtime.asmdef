@@ -4,7 +4,10 @@
     "references": [
         "UniTask",
         "VContainer",
-        "LitMotion"
+        "LitMotion",
+        "LitMotion.Extensions",
+        "UnityEngine.UI",
+        "LightSide.UniText"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
