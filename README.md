@@ -22,6 +22,16 @@ A minimal, playable **Klondike Solitaire (Draw‑1)** built in Unity as a develo
 - Drag‑and‑drop cards, tap the stock to draw, on‑screen **Undo / Redo / New Game** buttons, and a win banner.
 - 2D world‑space rendering with smooth move and flip animations.
 
+## Running it
+
+> **Required dependency — import this first.** The project depends on **UniText Platinum** (a paid Unity Asset Store package by Light Side LLC). It is **not** included in the repo, and without it the project **will not compile** — the `LightSide` / `UniText` / `UniTextWorld` references in the presentation layer produce many compilation errors. Get it here: [UniText Platinum on the Unity Asset Store](https://assetstore.unity.com/packages/tools/gui/unitext-platinum-357844).
+
+1. Open the Unity project under `AD.Unity/`.
+2. Import **UniText Platinum** (Package Manager ▸ *My Assets* ▸ Import). You can ignore the initial compile errors until this finishes; once it's imported the project compiles cleanly.
+3. Open and play the **`0.Bootstrap`** scene — it boots the app and loads through to the game.
+
+Scene and prefab setup are documented in `AD.Docs/EditorTasks`.
+
 ## How it works (architecture)
 
 The game is split into small systems behind interfaces, wired together with dependency injection (VContainer). `CoreScope` is the composition root and `CoreFlow` owns the lifecycle: load assets → initialize presentation → start game (a *New Game* is a full teardown + re‑init).
@@ -52,21 +62,11 @@ Unity (2D / orthographic) · **VContainer** (DI) · **UniTask** (async) · **Lit
 
 ## AI‑assisted workflow
 
-This was built with a **spec‑driven, AI‑assisted** process:
+This project was **generated end‑to‑end by AI**, driven through a spec‑first workflow:
 
-1. **Requirements first.** I wrote detailed design docs in `AD.Docs/Requirements` (systems 00–08, each with `REQ‑` IDs and an interface contract) and `AD.Docs/EditorTasks` (the manual Unity steps), defining the architecture and interfaces *before* any code.
-2. **Code generation.** I generated the C# from those specs using **Cursor's AI coding agent**, iterating system by system, with the **`unity-mcp`** Model Context Protocol server so the agent could talk to the Unity Editor directly.
-3. **Manual Unity work (by hand).** Scenes, the orthographic camera, the `EventSystem`, the `CoreScope` object, and the `CardView` / `PileView` / `BoardView` prefabs + `Resources` were set up in the editor per the EditorTasks docs.
-4. **Refactor & cleanup.** Follow‑up passes consolidated gameplay into the `Core` scene and centralized the lifecycle flow.
+1. **Requirements first.** Detailed design docs were authored in `AD.Docs/Requirements` (systems 00–08, each with `REQ‑` IDs and an interface contract) and `AD.Docs/EditorTasks`, fixing the architecture and interfaces before any code.
+2. **AI code generation.** All the C# was generated from those specs using **Cursor's AI coding agent**, iterating system by system.
+3. **Unity Editor via MCP.** The agent set up the project inside Unity through the **`unity-mcp`** (Model Context Protocol) server — scenes, the orthographic camera, the `EventSystem`, the `CoreScope` object, and the `CardView` / `PileView` / `BoardView` prefabs and `Resources` — rather than this being wired by hand.
+4. **Refactor & cleanup.** Further AI passes consolidated gameplay into the `Core` scene and centralized the lifecycle flow.
 
-In short: **architecture, requirements, prefab/scene wiring, and review were human‑driven; most of the C# implementation was AI‑generated from the specs.**
-
-## Running it
-
-> **Required dependency — import this first.** The project depends on **UniText Platinum** (a paid Unity Asset Store package by Light Side LLC). It is **not** included in the repo, and without it the project **will not compile** — the `LightSide` / `UniText` / `UniTextWorld` references in the presentation layer produce many compilation errors. Get it here: [UniText Platinum on the Unity Asset Store](https://assetstore.unity.com/packages/tools/gui/unitext-platinum-357844).
-
-1. Open the Unity project under `AD.Unity/`.
-2. Import **UniText Platinum** (Package Manager ▸ *My Assets* ▸ Import). You can ignore the initial compile errors until this finishes; once it's imported the project compiles cleanly.
-3. Load the `3.Core` scene and press **Play**.
-
-Scene and prefab setup are documented in `AD.Docs/EditorTasks`.
+The human role was **direction and review**: writing the specs, steering the agent, and validating the result. The implementation itself — code, scenes, and prefabs — was produced by AI in combination with Unity MCP.

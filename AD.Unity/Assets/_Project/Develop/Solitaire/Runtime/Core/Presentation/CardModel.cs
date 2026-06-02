@@ -130,7 +130,7 @@ namespace Appodeal.Solitaire.Runtime.Core.Presentation
 
         // Centered card-back motif: a full-color star emoji rendered by UniText.
         // Identical on every face-down card, as card backs must be.
-        private const string BackText = "\U0001F31F"; // 🌟
+        private const string BackText = "🌟"; // 
 
         private static string FaceText(Card card) => RankText(card.Rank) + SuitGlyph(card.Suit);
 
@@ -149,10 +149,10 @@ namespace Appodeal.Solitaire.Runtime.Core.Presentation
         // Suit symbols with the emoji variation selector (U+FE0F) so UniText picks the color glyph.
         private static string SuitGlyph(Suit suit) => suit switch
         {
-            Suit.Spades => "\u2660\uFE0F",
-            Suit.Hearts => "\u2665\uFE0F",
-            Suit.Diamonds => "\u2666\uFE0F",
-            Suit.Clubs => "\u2663\uFE0F",
+            Suit.Spades => "♠️",
+            Suit.Hearts => "♥️",
+            Suit.Diamonds => "♦️",
+            Suit.Clubs => "♣️",
             _ => string.Empty
         };
 
