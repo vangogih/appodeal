@@ -1,7 +1,8 @@
 using System.Collections.Generic;
-using Appodeal.Solitaire.Runtime;
-using Appodeal.Solitaire.Runtime.Domain;
-using Appodeal.Solitaire.Runtime.Game.Rules;
+using Appodeal.Solitaire.Runtime.Core;
+using Appodeal.Solitaire.Runtime.Core.Domain;
+using Appodeal.Solitaire.Runtime.Core.Game;
+using Appodeal.Solitaire.Runtime.Core.Game.Rules;
 using NUnit.Framework;
 using static Appodeal.Solitaire.Tests.EditMode.BoardStateBuilder;
 

@@ -26,7 +26,7 @@ This wires the `3.Core` scene so the generated Solitaire code can run. All runti
 - Add the **`CoreScope`** component (`Appodeal.Solitaire.Runtime.Core.CoreScope`).
 - Leave its settings default. `CoreScope.Configure` already registers every system and the `CoreFlow` / `InputSystem` entry points; nothing needs to be assigned in the inspector.
 
-> `CoreScope` registers `LoadingService`, `SceneManager`, `IUndoSystem`, `IGameSystem`, `ILayoutSystem`, `IGameAssetsSystem`, `IPresentationSystem`, the `InputSystem` (`ITickable`) entry point and the `CoreFlow` entry point. `CoreFlow` then runs: `gameAssets.LoadAsync()` → `presentation.InitializeAsync()` → `game.StartNewGame()`.
+> `CoreScope` registers `LoadingService`, `SceneManager`, `IGameSystem`, `ILayoutSystem`, `IGameAssetsSystem`, `IPresentationSystem`, the `InputSystem` (`ITickable`) entry point and the `CoreFlow` entry point. `GameSystem` creates its `Deal`/`Rules`/`Undo` subsystems internally (no separate DI registration). `CoreFlow` then runs: `gameAssets.LoadAsync()` → `presentation.InitializeAsync()` → `game.StartNewGame()`.
 
 ## 5. Run order sanity
 

@@ -1,4 +1,5 @@
-﻿using Appodeal.Solitaire.Runtime.Utilities.Logging;
+﻿using Appodeal.Solitaire.Runtime.Core;
+using Appodeal.Solitaire.Runtime.Utilities.Logging;
 using Cysharp.Threading.Tasks;
 using UnityEngine.SceneManagement;
 using UnitySceneManager = UnityEngine.SceneManagement.SceneManager;

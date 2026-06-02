@@ -1,24 +1,24 @@
-﻿using Appodeal.Solitaire.Runtime.Bootstrap.Units;
+﻿using Appodeal.Solitaire.Runtime.Core;
 using Appodeal.Solitaire.Runtime.Utilities;
 using Cysharp.Threading.Tasks;
 using VContainer.Unity;
 
 namespace Appodeal.Solitaire.Runtime.Loading
 {
-    public class LoadingFlow : IStartable
+    /// <summary>
+    /// Loading scene entry point. Advances the scene pipeline to the Meta scene.
+    /// </summary>
+    public sealed class LoadingFlow : IStartable
     {
-        private readonly LoadingService _loadingService;
         private readonly SceneManager _sceneManager;
 
-        public LoadingFlow(LoadingService loadingService, SceneManager sceneManager)
+        public LoadingFlow(SceneManager sceneManager)
         {
-            _loadingService = loadingService;
             _sceneManager = sceneManager;
         }
 
-        public async void Start()
+        public void Start()
         {
-            await _loadingService.BeginLoading(new FooLoadingUnit(3));
             _sceneManager.LoadScene(RuntimeConstants.Scenes.Meta).Forget();
         }
     }

@@ -1,6 +1,6 @@
-﻿using Appodeal.Solitaire.Runtime.Assets;
-using Appodeal.Solitaire.Runtime.Game;
-using Appodeal.Solitaire.Runtime.Presentation;
+﻿using Appodeal.Solitaire.Runtime.Core.Assets;
+using Appodeal.Solitaire.Runtime.Core.Game;
+using Appodeal.Solitaire.Runtime.Core.Presentation;
 using Appodeal.Solitaire.Runtime.Utilities.Logging;
 using VContainer.Unity;
 

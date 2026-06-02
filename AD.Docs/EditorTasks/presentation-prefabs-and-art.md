@@ -25,14 +25,14 @@ So the 52 face sprites are files like:
 `Assets/_Project/Resources/Cards/Clubs_Ace.png`, `Clubs_Two.png`, … , `Spades_King.png`, plus `Assets/_Project/Resources/Cards/Back.png`.
 
 - Import each as **Sprite (2D and UI)**.
-- Size them so one card is about `RuntimeConstants.Layout.CardSize` (1) world unit wide (tune Pixels Per Unit accordingly). The fan steps assume a card roughly 1.4 units tall.
+- Size them so one card is about 1 world unit wide (tune Pixels Per Unit accordingly). The fan steps (`RuntimeConstants.Layout.Tableau.FaceUpFanY`/`FaceDownFanY`) assume a card roughly 1.4 units tall.
 
 ## 2. `CardView` prefab (`Prefabs/CardView`)
 
 GameObject with:
 - `SpriteRenderer` — the card image. Set a sorting layer; order is driven at runtime.
 - `BoxCollider2D` — sized to the card; used for drag hit-testing.
-- `CardView` component (`Appodeal.Solitaire.Runtime.Presentation.CardView`):
+- `CardView` component (`Appodeal.Solitaire.Runtime.Core.Presentation.CardView`):
   - assign **`_renderer`** = the `SpriteRenderer`,
   - assign **`_collider`** = the `BoxCollider2D`.
 
@@ -42,14 +42,14 @@ Save as `Assets/_Project/Resources/Prefabs/CardView.prefab`.
 
 GameObject with:
 - `BoxCollider2D` — the drop/tap hit area (about one card in size; tableau zones may be taller).
-- `PileView` component (`Appodeal.Solitaire.Runtime.Presentation.PileView`).
+- `PileView` component (`Appodeal.Solitaire.Runtime.Core.Presentation.PileView`).
 - Optional: a faint placeholder `SpriteRenderer` (empty-slot frame) for visual clarity. Not required by code.
 
 Save as `Assets/_Project/Resources/Prefabs/PileView.prefab`.
 
 ## 4. `BoardView` prefab (`Prefabs/BoardView`)
 
-Root GameObject with the `BoardView` component (`Appodeal.Solitaire.Runtime.Presentation.BoardView`) and these children:
+Root GameObject with the `BoardView` component (`Appodeal.Solitaire.Runtime.Core.Presentation.BoardView`) and these children:
 
 Board roots (plain transforms at the board origin):
 - `PilesRoot` (Transform) — parent for the 13 pile slots.

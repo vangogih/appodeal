@@ -1,7 +1,8 @@
 using System.Collections.Generic;
 using System.Text;
-using Appodeal.Solitaire.Runtime;
-using Appodeal.Solitaire.Runtime.Domain;
+using Appodeal.Solitaire.Runtime.Core;
+using Appodeal.Solitaire.Runtime.Core.Domain;
+using Appodeal.Solitaire.Runtime.Core.Game;
 
 namespace Appodeal.Solitaire.Tests.EditMode
 {

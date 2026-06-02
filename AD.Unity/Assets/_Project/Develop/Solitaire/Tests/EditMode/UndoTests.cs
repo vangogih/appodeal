@@ -1,5 +1,5 @@
-using Appodeal.Solitaire.Runtime.Domain;
-using Appodeal.Solitaire.Runtime.Undo;
+using Appodeal.Solitaire.Runtime.Core.Domain;
+using Appodeal.Solitaire.Runtime.Core.Game.Undo;
 using NUnit.Framework;
 
 namespace Appodeal.Solitaire.Tests.EditMode
@@ -12,7 +12,7 @@ namespace Appodeal.Solitaire.Tests.EditMode
         [Test]
         public void NewSystem_HasEmptyStacks()
         {
-            var undo = new UndoSystem();
+            var undo = new UndoSubSystem();
             Assert.IsFalse(undo.CanUndo);
             Assert.IsFalse(undo.CanRedo);
         }
@@ -20,7 +20,7 @@ namespace Appodeal.Solitaire.Tests.EditMode
         [Test]
         public void Record_PushesToUndo_AndClearsRedo()
         {
-            var undo = new UndoSystem();
+            var undo = new UndoSubSystem();
             undo.Record(Change());
             undo.PopUndo(); // now redo has one entry
             Assert.IsTrue(undo.CanRedo);
@@ -33,7 +33,7 @@ namespace Appodeal.Solitaire.Tests.EditMode
         [Test]
         public void PopUndo_MovesRecordToRedo()
         {
-            var undo = new UndoSystem();
+            var undo = new UndoSubSystem();
             var change = Change(BoardChangeKind.Move);
             undo.Record(change);
 
@@ -47,7 +47,7 @@ namespace Appodeal.Solitaire.Tests.EditMode
         [Test]
         public void PopRedo_MovesRecordBackToUndo()
         {
-            var undo = new UndoSystem();
+            var undo = new UndoSubSystem();
             var change = Change();
             undo.Record(change);
             undo.PopUndo();
@@ -62,7 +62,7 @@ namespace Appodeal.Solitaire.Tests.EditMode
         [Test]
         public void Clear_EmptiesBothStacks()
         {
-            var undo = new UndoSystem();
+            var undo = new UndoSubSystem();
             undo.Record(Change());
             undo.Record(Change());
             undo.PopUndo();

@@ -1,10 +1,8 @@
-﻿using Appodeal.Solitaire.Runtime.Assets;
-using Appodeal.Solitaire.Runtime.Game;
-using Appodeal.Solitaire.Runtime.Input;
-using Appodeal.Solitaire.Runtime.Layout;
-using Appodeal.Solitaire.Runtime.Presentation;
-using Appodeal.Solitaire.Runtime.Undo;
-using Appodeal.Solitaire.Runtime.Utilities;
+﻿using Appodeal.Solitaire.Runtime.Core.Assets;
+using Appodeal.Solitaire.Runtime.Core.Game;
+using Appodeal.Solitaire.Runtime.Core.Input;
+using Appodeal.Solitaire.Runtime.Core.Layout;
+using Appodeal.Solitaire.Runtime.Core.Presentation;
 using VContainer;
 using VContainer.Unity;
 
@@ -14,12 +12,7 @@ namespace Appodeal.Solitaire.Runtime.Core
     {
         protected override void Configure(IContainerBuilder builder)
         {
-            // Infrastructure (kept self-contained for the Core scene).
-            builder.Register<LoadingService>(Lifetime.Scoped);
-            builder.Register<SceneManager>(Lifetime.Singleton);
-
-            // Game domain (pure logic).
-            builder.Register<IUndoSystem, UndoSystem>(Lifetime.Singleton);
+            // Game domain (pure logic). GameSystem creates its Deal/Rules/Undo subsystems internally.
             builder.Register<IGameSystem, GameSystem>(Lifetime.Singleton);
 
             // Unity-side systems.
