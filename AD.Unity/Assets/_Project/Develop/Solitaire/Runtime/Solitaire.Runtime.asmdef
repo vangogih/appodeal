@@ -1,0 +1,21 @@
+{
+    "name": "Solitaire.Runtime",
+    "rootNamespace": "Appodeal",
+    "references": [
+        "UniTask",
+        "VContainer",
+        "LitMotion",
+        "LitMotion.Extensions",
+        "UnityEngine.UI",
+        "LightSide.UniText"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

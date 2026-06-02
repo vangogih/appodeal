@@ -1,0 +1,19 @@
+{
+    "name": "Solitaire.Editor",
+    "rootNamespace": "Appodeal",
+    "references": [
+        "Solitaire.Runtime"
+    ],
+    "includePlatforms": [
+        "Editor",
+        "QNX"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

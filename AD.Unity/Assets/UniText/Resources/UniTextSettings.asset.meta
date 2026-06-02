@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: fecccafc5b2b83c469e85a60fbe72ee0
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 357844
+  packageName: UniText
+  packageVersion: 2.1.8
+  assetPath: Assets/UniText/Resources/UniTextSettings.asset
+  uploadId: 912218

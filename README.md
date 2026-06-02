@@ -1,43 +1,72 @@
-# Solitaire - Developer Case Study
+# Solitaire — Undo/Redo Prototype
 
-## Objective
+A minimal, playable **Klondike Solitaire (Draw‑1)** built in Unity as a developer case study. The focus feature is a clean **Undo/Redo** system; the rest of the game is scoped just far enough to make undo meaningful.
 
-Design and prototype a mini-feature for a Solitaire-style mobile game. The goal is to assess the ability to think critically, execute quickly, use AI tools efficiently, and structure code clearly within a limited time frame.
+> Game loop: deal → drag cards / draw from stock → undo or redo any move → win.
 
-## Details
+## What was built
 
-Technical details you can find in the [README file](AD.Unity/README.md).
+**Gameplay — Klondike, Draw‑1, unlimited recycling**
 
-## Task
+- Full deal: 7 tableau columns, a 24‑card stock, waste, and 4 foundations.
+- All core moves: tableau↔tableau (including valid multi‑card sequences), play to foundation, draw 1 from stock, and recycle the waste back into the stock.
+- Auto‑flip of newly exposed tableau cards, and win detection.
 
-Create a Unity prototype for an **Undo Move** system.
+**Undo / Redo — the headline feature**
 
-The prototype should implement a basic undo system that lets the player revert their last move in a simplified Solitaire setting. A full Solitaire implementation is not required. The scope can stay limited to a minimal card movement setup, such as dragging or clicking cards between two or three stacks.
+- Multi‑level undo *and* redo (the brief asked for one move back; this handles the whole history).
+- Buttons enable/disable based on availability; starting a new game clears the history.
 
-## Requirements
+**Controls & presentation**
 
-- Show movement between stacks using drag-and-drop or click controls.
-- Implement undo functionality for at least one previous move.
-- Keep the code clean and modular.
-- Include a short project README describing what was built, what could be improved with more time, and which parts were AI-assisted.
+- Drag‑and‑drop cards, tap the stock to draw, on‑screen **Undo / Redo / New Game** buttons, and a win banner.
+- 2D world‑space rendering with smooth move and flip animations.
 
-## Tech And Tools
+## Running it
 
-- Unity, using either a 2D or 3D setup.
-- Any AI tools, such as ChatGPT, GitHub Copilot, Claude, or Cursor.
-- GitHub repository link or Unity package for submission.
+> **Required dependency — import this first.** The project depends on **UniText Platinum** (a paid Unity Asset Store package by Light Side LLC). It is **not** included in the repo, and without it the project **will not compile** — the `LightSide` / `UniText` / `UniTextWorld` references in the presentation layer produce many compilation errors. Get it here: [UniText Platinum on the Unity Asset Store](https://assetstore.unity.com/packages/tools/gui/unitext-platinum-357844).
 
-## Evaluation Criteria
+1. Open the Unity project under `AD.Unity/`.
+2. Import **UniText Platinum** (Package Manager ▸ *My Assets* ▸ Import). You can ignore the initial compile errors until this finishes; once it's imported the project compiles cleanly.
+3. Open and play the **`0.Bootstrap`** scene — it boots the app and loads through to the game.
 
-- **Autonomy:** Were solid choices made independently?
-- **Critical Thinking:** Is the solution scoped realistically for a two-hour task?
-- **Unity Execution:** Is the architecture clear and the logic working?
-- **AI Workflow:** Were AI tools used thoughtfully and realistically?
-- **Clarity:** Are the code and README easy to follow?
+Scene and prefab setup are documented in `AD.Docs/EditorTasks`.
 
+## How it works (architecture)
 
-## Submission Instructions
+The game is split into small systems behind interfaces, wired together with dependency injection (VContainer). `CoreScope` is the composition root and `CoreFlow` owns the lifecycle: load assets → initialize presentation → start game (a *New Game* is a full teardown + re‑init).
 
-At the end of the test, push the code to a GitHub repository and make the repository link available.
+| System | Responsibility | Unity? |
+|---|---|---|
+| `GameSystem` | Board state, game loop, applies/reverts moves | No — pure C# |
+| `UndoSubSystem` | Undo/redo history | No — pure C# |
+| `InputSystem` | Pointer/tap abstraction | Yes |
+| `GameAssetsSystem` | Async asset load/unload | Yes |
+| `LayoutSystem` | Pile/card position math | Yes |
+| `PresentationSystem` | Visuals only (views, sprites, animation) | Yes |
 
-A `.unitypackage` file can also be submitted, but GitHub is strongly encouraged to showcase versioning and README clarity.
+`GameSystem` composes its own `DealSubSystem` (shuffle + deal), `RulesSubSystem` (move validation + win check) and `UndoSubSystem`. The board is exposed as an immutable `BoardState` snapshot through events: the presentation layer reacts to `OnBoardChanged` and translates completed gestures back into `GameSystem` commands. Rules, layout math, asset loading, and history are deliberately kept *out* of the presentation layer.
+
+**Undo design.** Rather than snapshotting the entire board, each action produces a small reversible `BoardChange` (kind, source, target, card count, and an auto‑flip flag). `UndoSubSystem` keeps an undo stack and a redo stack; a new move clears the redo stack. *Undo* pops a change and reverts it (including un‑flipping the card it revealed); *redo* replays it. This keeps memory tiny and the logic easy to reason about and test.
+
+## Tech & tools
+
+Unity (2D / orthographic) · **VContainer** (DI) · **UniTask** (async) · **LitMotion** (tweening) · **UniText Platinum** (renders rank/suit glyphs when no card sprites are supplied, so the prototype runs with zero art — a required paid Asset Store package; see *Running it*) · uGUI. The core logic is covered by **EditMode unit tests** — deal, rules, undo/redo round‑trips, and a seed‑scanning auto‑flip‑then‑undo test.
+
+## What I'd improve with more time
+
+- A real card‑art sprite set in place of the emoji‑glyph fallback, plus deal and win animations.
+- Quality‑of‑life: double‑click/tap to auto‑send a card to its foundation, hints, score/timer.
+- PlayMode/integration tests covering drag‑and‑drop and a full game.
+- Persistence (resume an in‑progress game *with* its undo history), card‑view pooling, and an optional Draw‑3 mode.
+
+## AI‑assisted workflow
+
+This project was **generated end‑to‑end by AI**, driven through a spec‑first workflow:
+
+1. **Requirements first.** Detailed design docs were authored in `AD.Docs/Requirements` (systems 00–08, each with `REQ‑` IDs and an interface contract) and `AD.Docs/EditorTasks`, fixing the architecture and interfaces before any code.
+2. **AI code generation.** All the C# was generated from those specs using **Cursor's AI coding agent**, iterating system by system.
+3. **Unity Editor via MCP.** The agent set up the project inside Unity through the **`unity-mcp`** (Model Context Protocol) server — scenes, the orthographic camera, the `EventSystem`, the `CoreScope` object, and the `CardView` / `PileView` / `BoardView` prefabs and `Resources` — rather than this being wired by hand.
+4. **Refactor & cleanup.** Further AI passes consolidated gameplay into the `Core` scene and centralized the lifecycle flow.
+
+The human role was **direction and review**: writing the specs, steering the agent, and validating the result. The implementation itself — code, scenes, and prefabs — was produced by AI in combination with Unity MCP.
