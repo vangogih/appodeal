@@ -24,7 +24,4 @@ MonoBehaviour:
   dictionaries:
     items:
     - {fileID: 11400000, guid: af576c69b5886a645a57e5edda94f841, type: 2}
-  caretBlinkTimeout: 3
-  caretBlinkInterval: 0.5
-  undoCoalesceTimeout: 0.4
   language: 
