@@ -1,6 +1,7 @@
 using System.Threading;
 using Appodeal.Solitaire.Runtime.Core.Domain;
 using Cysharp.Threading.Tasks;
+using LightSide;
 using LitMotion;
 using LitMotion.Extensions;
 using UnityEngine;
@@ -18,6 +19,17 @@ namespace Appodeal.Solitaire.Runtime.Core.Presentation
         [SerializeField] private SpriteRenderer _renderer;
         [SerializeField] private BoxCollider2D _collider;
 
+        [Header("UniText label (used when no per-card sprite is supplied)")]
+        [SerializeField] private UniTextWorld _centerLabel;
+
+        // Legacy corner index: kept in the prefab but hidden at runtime, since showing it next to
+        // the centered label duplicates the rank/suit on fully-visible cards. Deactivated on init.
+        [SerializeField] private UniTextWorld _cornerLabel;
+
+        [Header("Default backgrounds (white front / decorated back)")]
+        [SerializeField] private Sprite _defaultFront;
+        [SerializeField] private Sprite _defaultBack;
+
         private CardModel _model;
         private MotionHandle _moveHandle;
         private MotionHandle _flipHandle;
@@ -27,6 +39,9 @@ namespace Appodeal.Solitaire.Runtime.Core.Presentation
         public bool FaceUp { get; private set; }
         public CardModel Model => _model;
 
+        public Sprite DefaultFront => _defaultFront;
+        public Sprite DefaultBack => _defaultBack;
+
         public UniTask InitializeAsync(CardModel model, CancellationToken ct = default)
         {
             _model = model;
@@ -35,6 +50,10 @@ namespace Appodeal.Solitaire.Runtime.Core.Presentation
                 _renderer = GetComponent<SpriteRenderer>();
             if (_collider == null)
                 _collider = GetComponent<BoxCollider2D>();
+
+            // Hide the duplicate corner index; only the centered label is used.
+            if (_cornerLabel != null)
+                _cornerLabel.gameObject.SetActive(false);
 
             return UniTask.CompletedTask;
         }
@@ -52,10 +71,36 @@ namespace Appodeal.Solitaire.Runtime.Core.Presentation
                 _renderer.sprite = sprite;
         }
 
+        // Drives the rank/suit (or back motif) text. Called with show=false when a per-card
+        // sprite is used, so the procedurally rendered label is hidden behind real art.
+        public void SetLabel(string text, Color color, bool show)
+        {
+            ApplyLabel(_centerLabel, text, color, show);
+        }
+
+        private static void ApplyLabel(UniTextWorld label, string text, Color color, bool show)
+        {
+            if (label == null)
+                return;
+
+            if (label.gameObject.activeSelf != show)
+                label.gameObject.SetActive(show);
+
+            if (!show)
+                return;
+
+            label.color = color;
+            label.Text = text;
+        }
+
+        // The label is offset by +1 so each card's text occupies its own sorting order, sitting
+        // above the card's own sprite but below the next card's sprite (orders are spaced by 2).
         public void SetSortingOrder(int order)
         {
             if (_renderer != null)
                 _renderer.sortingOrder = order;
+            if (_centerLabel != null)
+                _centerLabel.SortingOrder = order + 1;
         }
 
         public void SetLocalPosition(Vector3 localPosition, bool animate)
@@ -85,7 +130,7 @@ namespace Appodeal.Solitaire.Runtime.Core.Presentation
         }
 
         // REQ-PRES-003.2: animate a face change (flip) by squashing on X, swapping the sprite, expanding back.
-        public void AnimateFlip(Sprite newSprite)
+        public void AnimateFlip(Sprite newSprite, string labelText, Color labelColor, bool showLabel)
         {
             if (_flipHandle.IsActive())
                 _flipHandle.TryCancel();
@@ -98,6 +143,7 @@ namespace Appodeal.Solitaire.Runtime.Core.Presentation
                 .WithOnComplete(() =>
                 {
                     SetSprite(newSprite);
+                    SetLabel(labelText, labelColor, showLabel);
                     LMotion.Create(0f, 1f, half)
                         .WithEase(Ease.OutQuad)
                         .Bind(transform, static (x, t) =>

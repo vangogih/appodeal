@@ -3,6 +3,7 @@ using Appodeal.Solitaire.Runtime.Core.Game;
 using Appodeal.Solitaire.Runtime.Core.Input;
 using Appodeal.Solitaire.Runtime.Core.Layout;
 using Appodeal.Solitaire.Runtime.Core.Presentation;
+using Appodeal.Solitaire.Runtime.Utilities;
 using VContainer;
 using VContainer.Unity;
 
@@ -12,6 +13,10 @@ namespace Appodeal.Solitaire.Runtime.Core
     {
         protected override void Configure(IContainerBuilder builder)
         {
+            // Infrastructure needed by GameAssetsSystem when the Core scene runs standalone
+            // (without the Bootstrap scope as a parent provider).
+            builder.Register<LoadingService>(Lifetime.Singleton);
+
             // Game domain (pure logic). GameSystem creates its Deal/Rules/Undo subsystems internally.
             builder.Register<IGameSystem, GameSystem>(Lifetime.Singleton);
 

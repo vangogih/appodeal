@@ -57,7 +57,7 @@ namespace Appodeal.Solitaire.Runtime.Core.Assets
                     var sprite = AssetService.R.Load<Sprite>(path);
 
                     if (sprite == null)
-                        Log.Loading.W(LogTag, $"Missing card face sprite at '{path}'");
+                        Log.Loading.D(LogTag, $"No card face sprite at '{path}'; UniText emoji label will be used.");
 
                     _cache.Faces[(suit, rank)] = sprite;
                 }
@@ -68,7 +68,7 @@ namespace Appodeal.Solitaire.Runtime.Core.Assets
 
             _cache.Back = AssetService.R.Load<Sprite>(RuntimeConstants.Game.Assets.Cards.BackPath);
             if (_cache.Back == null)
-                Log.Loading.W(LogTag, $"Missing card back sprite at '{RuntimeConstants.Game.Assets.Cards.BackPath}'");
+                Log.Loading.D(LogTag, $"No card back sprite at '{RuntimeConstants.Game.Assets.Cards.BackPath}'; UniText back motif will be used.");
 
             _cache.CardViewPrefab = LoadPrefab(RuntimeConstants.Game.Assets.Prefabs.CardView);
             _cache.PileViewPrefab = LoadPrefab(RuntimeConstants.Game.Assets.Prefabs.PileView);

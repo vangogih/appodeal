@@ -122,7 +122,9 @@ namespace Appodeal.Solitaire.Runtime.Core.Presentation
                 if (model == null)
                     continue;
 
-                int sorting = RuntimeConstants.Game.Presentation.CardSortingBase + index;
+                // Orders are spaced by 2 so each card's UniText label can occupy order+1 (above its
+                // own sprite, below the next card's sprite).
+                int sorting = (RuntimeConstants.Game.Presentation.CardSortingBase + index) * 2;
                 model.Apply(card, pile, index, anchor + offset, sorting, animate);
 
                 offset += GetFanStep(pile.Kind, card.FaceUp);
@@ -185,7 +187,7 @@ namespace Appodeal.Solitaire.Runtime.Core.Presentation
             }
 
             for (int i = 0; i < _lifted.Count; i++)
-                _lifted[i].Lift(pointerWorld + _liftGrabOffsets[i], RuntimeConstants.Game.Presentation.DragSortingBoost + i);
+                _lifted[i].Lift(pointerWorld + _liftGrabOffsets[i], (RuntimeConstants.Game.Presentation.DragSortingBoost + i) * 2);
 
             return true;
         }
