@@ -12,8 +12,14 @@ namespace Appodeal.Solitaire.Runtime.Core.Presentation
 {
     public interface IPresentationSystem
     {
+        // Raised when the player requests a new game; CoreFlow owns the restart (see CoreFlow).
+        event Action OnNewGameRequested;
+
         UniTask InitializeAsync(CancellationToken ct = default);
-        UniTask DisposeAsync();
+
+        // Synchronous teardown driven solely by CoreFlow. Async disposal lives only in Flow
+        // classes, so this system is neither IDisposable nor exposes a DisposeAsync.
+        void Teardown();
     }
 
     /// <summary>
@@ -22,8 +28,10 @@ namespace Appodeal.Solitaire.Runtime.Core.Presentation
     /// translates completed gestures into <see cref="IGameSystem"/> commands. Contains no game rules,
     /// position math, asset loading or history. Built with the Model/View pattern.
     /// </summary>
-    public sealed class PresentationSystem : IPresentationSystem, IDisposable
+    public sealed class PresentationSystem : IPresentationSystem
     {
+        public event Action OnNewGameRequested;
+
         private readonly IGameSystem _game;
         private readonly IInputSystem _input;
 
@@ -95,11 +103,11 @@ namespace Appodeal.Solitaire.Runtime.Core.Presentation
             await _board.SyncAsync(_game.State, animate: false, ct);
         }
 
-        // REQ-PRES-008
-        public UniTask DisposeAsync()
+        // REQ-PRES-008. Synchronous teardown; invoked only by CoreFlow (the single lifecycle owner).
+        public void Teardown()
         {
             if (!_initialized)
-                return UniTask.CompletedTask;
+                return;
 
             _game.OnBoardChanged -= _onBoardChanged;
             _game.OnGameWon -= _onGameWon;
@@ -118,11 +126,7 @@ namespace Appodeal.Solitaire.Runtime.Core.Presentation
 
             _board.Dispose();
             _initialized = false;
-            return UniTask.CompletedTask;
         }
-
-        // Bridge for VContainer scope teardown -> async unsubscription.
-        public void Dispose() => DisposeAsync().Forget();
 
         // REQ-PRES-003
         private void HandleBoardChanged(BoardState state)
@@ -188,10 +192,8 @@ namespace Appodeal.Solitaire.Runtime.Core.Presentation
         private void HandleUndoClicked() => _game.Undo();
         private void HandleRedoClicked() => _game.Redo();
 
-        private void HandleNewGameClicked()
-        {
-            _board.HideWin();
-            _game.StartNewGame();
-        }
+        // Restart is owned by CoreFlow: surface the request and let the flow tear everything down
+        // (DisposeAsync) and re-initialize.
+        private void HandleNewGameClicked() => OnNewGameRequested?.Invoke();
     }
 }
